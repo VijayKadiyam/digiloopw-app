@@ -38,7 +38,7 @@ class _TakeImageWidgetState extends State<TakeImageWidget> {
       children: <Widget>[
         Row(
           children: <Widget>[
-            (widget.imagePath != null)
+            (widget.imagePath != null && widget.imagePath != '')
                 ? Container(
                     height: 50,
                     child: Image.network(
@@ -57,11 +57,11 @@ class _TakeImageWidgetState extends State<TakeImageWidget> {
               onPressed: () async {
                 final imageFile = await ImagePicker.pickImage(
                   source: ImageSource.camera,
-                  maxHeight: 600,
-                  maxWidth: 600,
+                  imageQuality: 100,
                 );
                 setState(() {
                   _storedFile = imageFile;
+                  print(_storedFile);
                   paymentData['file'] = imageFile.path;
                   paymentData['fileName'] = 'payment.jpg';
                   widget.model.addPayment(
@@ -80,8 +80,7 @@ class _TakeImageWidgetState extends State<TakeImageWidget> {
               onPressed: () async {
                 final imageFile = await ImagePicker.pickImage(
                   source: ImageSource.gallery,
-                  maxHeight: 600,
-                  maxWidth: 600,
+                  imageQuality: 100,
                 );
                 setState(() {
                   _storedFile = imageFile;

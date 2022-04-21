@@ -289,7 +289,9 @@ class _SalesOrderIndexPageState extends State<SalesOrderIndexPage> {
                               Expanded(
                                 child: TakeImageWidget(
                                   model: widget.model,
-                                  imagePath: '',
+                                  imagePath: _salesOrder.payments.length > 0
+                                      ? _salesOrder.payments[0]['fileName']
+                                      : '',
                                   salesOrderId: _salesOrder.id,
                                 ),
                               ),

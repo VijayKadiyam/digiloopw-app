@@ -70,6 +70,7 @@ mixin SalesOrderModel on ConnectedModel {
             grossTotal: _order['gross_total'] ?? null,
             status: _order['status'] ?? '',
             salesOrderDetails: _salesOrderDetails,
+            payments: _order['sales_order_payments'] ?? [],
             logistics: _order['logistics'],
           ),
         );
@@ -147,6 +148,19 @@ mixin SalesOrderModel on ConnectedModel {
       'gross_total': salesOrder.grossTotal,
       'status': salesOrder.status,
       'login_id': loginId,
+      'name': authenticatedUser.name,
+      'email': authenticatedUser.email,
+      'phone': authenticatedUser.phone,
+      'organization_name': authenticatedUser.organizationName,
+      'address': authenticatedUser.address1 +
+          ', ' +
+          authenticatedUser.address2 +
+          ', ' +
+          authenticatedUser.state,
+      'state_code': authenticatedUser.stateCode,
+      'state': authenticatedUser.state,
+      'gst_registered': authenticatedUser.gstRegistered,
+      'gstin': authenticatedUser.gstin,
       'products': [],
       'payments': [],
     };
@@ -178,7 +192,7 @@ mixin SalesOrderModel on ConnectedModel {
       );
 
       // Send Email
-      Network().get(url: 'emails/order-received');
+      Network().get(url: 'emails/order-received?orderId=$id');
 
       _success = true;
       _message =

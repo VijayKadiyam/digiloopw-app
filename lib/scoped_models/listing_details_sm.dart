@@ -70,7 +70,7 @@ mixin ListingDetailsModel on ConnectedModel {
       });
 
       // Sort Quantities
-      var sortedQuantities = sortItems(_userData['quantities']);
+      var sortedQuantities = sortQuantity(_userData['quantities']);
       // Quantities
       quantities = [];
       sortedQuantities.forEach((_quantity) {
@@ -92,6 +92,19 @@ mixin ListingDetailsModel on ConnectedModel {
     for (var i = 0; i < items.length; i++) {
       for (var j = i + 1; j < items.length; j++) {
         if (items[i]['id'] > items[j]['id']) {
+          var temp = items[i];
+          items[i] = items[j];
+          items[j] = temp;
+        }
+      }
+    }
+    return items;
+  }
+
+  sortQuantity(items) {
+    for (var i = 0; i < items.length; i++) {
+      for (var j = i + 1; j < items.length; j++) {
+        if (items[i]['qty'] > items[j]['qty']) {
           var temp = items[i];
           items[i] = items[j];
           items[j] = temp;

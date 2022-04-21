@@ -150,6 +150,7 @@ mixin AuthModel on ConnectedModel {
       address1: _userData['address_1'] ?? '',
       address2: _userData['address_2'] ?? '',
       state: _userData['state'] ?? '',
+      stateCode: _userData['state_code'] ?? '',
       gstRegistered: _userData['gst_registered'] ?? '',
       gstin: _userData['gstin'] ?? '',
       pan: _userData['pan_no'] ?? '',

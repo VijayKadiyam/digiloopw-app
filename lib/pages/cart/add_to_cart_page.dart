@@ -324,27 +324,27 @@ class _AddToCartPageState extends State<AddToCartPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/listings');
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Continue',
-                          style: Theme.of(context)
-                              .textTheme
-                              .title
-                              .copyWith(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     Navigator.pushNamed(context, '/listings');
+                  //   },
+                  //   child: Container(
+                  //     height: 50,
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(5),
+                  //       color: Theme.of(context).primaryColor,
+                  //     ),
+                  //     child: Center(
+                  //       child: Text(
+                  //         'Continue',
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .title
+                  //             .copyWith(color: Colors.white),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

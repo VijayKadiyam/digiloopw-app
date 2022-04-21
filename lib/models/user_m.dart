@@ -11,6 +11,7 @@ class User {
   final String address1;
   final String address2;
   final String state;
+  final String stateCode;
   final String gstRegistered;
   final String gstin;
   final String pan;
@@ -29,6 +30,7 @@ class User {
     this.address1,
     this.address2,
     this.state,
+    this.stateCode,
     this.gstRegistered,
     this.gstin,
     this.pan,

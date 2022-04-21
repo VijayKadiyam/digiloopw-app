@@ -25,14 +25,50 @@ class _ProfileIdPageState extends State<ProfileIdPage> {
     'address_1': '',
     'address_2': '',
     'state': '',
+    'state_code': '',
     'gst_registered': '',
     'gstin': '',
     'pan_no': '',
   };
 
   List<Map<String, dynamic>> _states = [
-    {'name': 'Select State', 'value': ''},
-    {'name': 'Maharashtra', 'value': 'MH'},
+    {'name': 'Jammu & Kashmir', 'code': '1'},
+    {'name': 'Himachal Pradesh', 'code': '2'},
+    {'name': 'Punjab', 'code': '3'},
+    {'name': 'Chandigarh', 'code': '4'},
+    {'name': 'Uttarakhand', 'code': '5'},
+    {'name': 'Haryana', 'code': '6'},
+    {'name': 'Delhi', 'code': '7'},
+    {'name': 'Rajasthan', 'code': '8'},
+    {'name': 'Uttar Pradesh', 'code': '9'},
+    {'name': 'Bihar', 'code': '10'},
+    {'name': 'Sikkim', 'code': '11'},
+    {'name': 'Arunachal Pradesh', 'code': '12'},
+    {'name': 'Nagaland', 'code': '13'},
+    {'name': 'Manipur', 'code': '14'},
+    {'name': 'Mizoram', 'code': '15'},
+    {'name': 'Tripura', 'code': '16'},
+    {'name': 'Meghalaya', 'code': '17'},
+    {'name': 'Assam', 'code': '18'},
+    {'name': 'West Bengal', 'code': '19'},
+    {'name': 'Jharkhand', 'code': '20'},
+    {'name': 'Orissa', 'code': '21'},
+    {'name': 'Chattisgarh', 'code': '22'},
+    {'name': 'Madhya Pradesh', 'code': '23'},
+    {'name': 'Gujarat', 'code': '24'},
+    {'name': 'Daman & Diu', 'code': '25'},
+    {'name': 'Dadra * Nagar Haveli', 'code': '26'},
+    {'name': 'Maharashtra', 'code': '27'},
+    {'name': 'Andhra Pradesh', 'code': '28'},
+    {'name': 'Karnataka', 'code': '29'},
+    {'name': 'Goa', 'code': '30'},
+    {'name': 'Lakshadweep', 'code': '31'},
+    {'name': 'Kerala', 'code': '32'},
+    {'name': 'Tamil Nadu', 'code': '33'},
+    {'name': 'Puducherry', 'code': '34'},
+    {'name': 'Andaman & Nicobar Island', 'code': '35'},
+    {'name': 'Telangana', 'code': '36'},
+    {'name': 'Andhra Pradesh (New)', 'code': '37'},
   ];
 
   List<Map<String, dynamic>> _gstRegistered = [
@@ -44,6 +80,14 @@ class _ProfileIdPageState extends State<ProfileIdPage> {
   @override
   void initState() {
     _profileData['state'] = widget.model.authenticatedUser.state;
+    List<Map<String, dynamic>> selectedStates = _states
+        .where((_state) => _state['name'] == _profileData['state'])
+        .toList();
+    Map<String, dynamic> _selectedState;
+    if (selectedStates.length > 0) {
+      _selectedState = selectedStates[0];
+      _profileData['state_code'] = _selectedState['code'];
+    }
     _profileData['gst_registered'] =
         widget.model.authenticatedUser.gstRegistered;
     super.initState();
@@ -127,6 +171,10 @@ class _ProfileIdPageState extends State<ProfileIdPage> {
                     ),
                     initialValue:
                         widget.model.authenticatedUser.organizationName,
+                    validator: (value) {
+                      if (value.isEmpty) return 'Please organization name';
+                      return null;
+                    },
                     onSaved: (value) {
                       _profileData['organization_name'] = value;
                     },
@@ -136,6 +184,10 @@ class _ProfileIdPageState extends State<ProfileIdPage> {
                       labelText: 'Enter address 1',
                     ),
                     initialValue: widget.model.authenticatedUser.address1,
+                    validator: (value) {
+                      if (value.isEmpty) return 'Please enter address 1';
+                      return null;
+                    },
                     onSaved: (value) {
                       _profileData['address_1'] = value;
                     },
@@ -145,6 +197,10 @@ class _ProfileIdPageState extends State<ProfileIdPage> {
                       labelText: 'Enter address 2',
                     ),
                     initialValue: widget.model.authenticatedUser.address2,
+                    validator: (value) {
+                      if (value.isEmpty) return 'Please enter address 2';
+                      return null;
+                    },
                     onSaved: (value) {
                       _profileData['address_2'] = value;
                     },
@@ -153,15 +209,34 @@ class _ProfileIdPageState extends State<ProfileIdPage> {
                     value: _profileData['state'],
                     items: _states.map((_state) {
                       return DropdownMenuItem(
-                        value: _state['value'],
+                        value: _state['name'],
                         child: Text(_state['name']),
                       );
                     }).toList(),
+                    validator: (value) {
+                      if (value.isEmpty) return 'Please enter state';
+                      return null;
+                    },
                     onChanged: (value) {
                       setState(() {
                         _profileData['state'] = value;
+                        List<Map<String, dynamic>> selectedStates = _states
+                            .where((_state) => _state['name'] == value)
+                            .toList();
+                        Map<String, dynamic> _selectedState;
+                        if (selectedStates.length > 0) {
+                          _selectedState = selectedStates[0];
+                          _profileData['state_code'] = _selectedState['code'];
+                        }
                       });
                     },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('State Code: ' + _profileData['state_code']),
+                  SizedBox(
+                    height: 10,
                   ),
                   DropdownButtonFormField(
                     value: _profileData['gst_registered'],
@@ -171,6 +246,10 @@ class _ProfileIdPageState extends State<ProfileIdPage> {
                         child: Text(_gst['name']),
                       );
                     }).toList(),
+                    validator: (value) {
+                      if (value.isEmpty) return 'Please GST Status';
+                      return null;
+                    },
                     onChanged: (value) {
                       setState(() {
                         _profileData['gst_registered'] = value;
@@ -191,6 +270,10 @@ class _ProfileIdPageState extends State<ProfileIdPage> {
                       labelText: 'Organization PAN',
                     ),
                     initialValue: widget.model.authenticatedUser.pan,
+                    validator: (value) {
+                      if (value.isEmpty) return 'Please enter pan no';
+                      return null;
+                    },
                     onSaved: (value) {
                       _profileData['pan_no'] = value;
                     },

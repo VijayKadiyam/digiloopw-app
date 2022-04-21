@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                               labelText: 'Enter email/phone...',
                             ),
-                            initialValue: 'sumit@gmail.com',
+                            initialValue: '',
                             // initialValue: 'email10@gmail.com',
                             validator: (value) {
                               if (value.isEmpty) return 'Please enter email';
@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                               labelText: 'Enter password...',
                             ),
                             obscureText: true,
-                            initialValue: '123456',
+                            initialValue: '',
                             validator: (value) {
                               if (value.isEmpty) return 'Please enter password';
                               return null;

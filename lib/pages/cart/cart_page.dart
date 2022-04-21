@@ -376,117 +376,167 @@ class _CartPageState extends State<CartPage> {
                       ),
                       Expanded(
                         child: Center(
-                          child: RaisedButton(
-                              color: Theme.of(context).primaryColor,
-                              child: Text(
-                                'Place Order',
-                                style:
-                                    Theme.of(context).textTheme.title.copyWith(
+                          child: widget.model.isLoading
+                              ? Row(
+                                  children: <Widget>[
+                                    CircularProgressIndicator(),
+                                    Text('  Placing Order...')
+                                  ],
+                                )
+                              : RaisedButton(
+                                  color: Theme.of(context).primaryColor,
+                                  child: Text(
+                                    'Place Order',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .title
+                                        .copyWith(
                                           fontSize: 15,
                                           color: Colors.white,
                                         ),
-                              ),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  child: AlertDialog(
-                                    title: Text('Confirm the order'),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        child: Text('No'),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                      FlatButton(
-                                        child: Text('Yes'),
-                                        onPressed: () async {
-                                          if (loginId == null) {
-                                            showDialog(
-                                              context: context,
-                                              child: AlertDialog(
-                                                title: Text(
-                                                    'Please select the login'),
-                                                actions: <Widget>[
-                                                  FlatButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          } else {
-                                            // Add address
-                                            if (_addressController.text !=
-                                                null) {
-                                              Map<String, dynamic>
-                                                  _profileData = {
-                                                'name': widget.model
-                                                    .authenticatedUser.name,
-                                                'email': widget.model
-                                                    .authenticatedUser.email,
-                                                'phone': widget.model
-                                                    .authenticatedUser.phone,
-                                                'organization_name': widget
-                                                    .model
-                                                    .authenticatedUser
-                                                    .organizationName,
-                                                'address_1': widget.model
-                                                    .authenticatedUser.address1,
-                                                'address_2': widget.model
-                                                    .authenticatedUser.address2,
-                                                'state': widget.model
-                                                    .authenticatedUser.state,
-                                                'gst_registered': widget
-                                                    .model
-                                                    .authenticatedUser
-                                                    .gstRegistered,
-                                                'gstin': widget.model
-                                                    .authenticatedUser.gstin,
-                                                'pan_no': widget.model
-                                                    .authenticatedUser.pan,
-                                                'sales_order_address':
-                                                    _addressController.text,
-                                              };
-
-                                              await widget.model.updateUser(
-                                                userData: _profileData,
-                                              );
-                                            }
-
-                                            // Add sales order
-                                            Navigator.pop(context);
-                                            MyResponse _response = await widget
-                                                .model
-                                                .addSalesOrder(
-                                              loginId: loginId,
-                                            );
-                                            showDialog(
-                                              context: context,
-                                              child: AlertDialog(
-                                                title: Text(_response.message),
-                                                actions: <Widget>[
-                                                  FlatButton(
-                                                    child: Text('Ok'),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                      Navigator.pushNamed(
-                                                          context, '/');
-                                                    },
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          }
-                                        },
-                                      )
-                                    ],
                                   ),
-                                );
-                              }),
+                                  onPressed: () {
+                                    if (widget.model.salesOrder
+                                            .salesOrderDetails.length ==
+                                        0) {
+                                      showDialog(
+                                        context: context,
+                                        child: AlertDialog(
+                                          title: Text('Cart is Empty'),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text('Ok'),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    } else
+                                      showDialog(
+                                        context: context,
+                                        child: AlertDialog(
+                                          title: Text('Confirm the order'),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              child: Text('No'),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                            FlatButton(
+                                              child: Text('Yes'),
+                                              onPressed: () async {
+                                                if (loginId == null) {
+                                                  showDialog(
+                                                    context: context,
+                                                    child: AlertDialog(
+                                                      title: Text(
+                                                          'Please select the login'),
+                                                      actions: <Widget>[
+                                                        FlatButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text('Ok'),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                } else {
+                                                  // Add address
+                                                  if (_addressController.text !=
+                                                      null) {
+                                                    Map<String, dynamic>
+                                                        _profileData = {
+                                                      'name': widget
+                                                          .model
+                                                          .authenticatedUser
+                                                          .name,
+                                                      'email': widget
+                                                          .model
+                                                          .authenticatedUser
+                                                          .email,
+                                                      'phone': widget
+                                                          .model
+                                                          .authenticatedUser
+                                                          .phone,
+                                                      'organization_name':
+                                                          widget
+                                                              .model
+                                                              .authenticatedUser
+                                                              .organizationName,
+                                                      'address_1': widget
+                                                          .model
+                                                          .authenticatedUser
+                                                          .address1,
+                                                      'address_2': widget
+                                                          .model
+                                                          .authenticatedUser
+                                                          .address2,
+                                                      'state': widget
+                                                          .model
+                                                          .authenticatedUser
+                                                          .state,
+                                                      'gst_registered': widget
+                                                          .model
+                                                          .authenticatedUser
+                                                          .gstRegistered,
+                                                      'gstin': widget
+                                                          .model
+                                                          .authenticatedUser
+                                                          .gstin,
+                                                      'pan_no': widget
+                                                          .model
+                                                          .authenticatedUser
+                                                          .pan,
+                                                      'sales_order_address':
+                                                          _addressController
+                                                              .text,
+                                                    };
+
+                                                    await widget.model
+                                                        .updateUser(
+                                                      userData: _profileData,
+                                                    );
+                                                  }
+
+                                                  // Add sales order
+                                                  Navigator.pop(context);
+                                                  MyResponse _response =
+                                                      await widget.model
+                                                          .addSalesOrder(
+                                                    loginId: loginId,
+                                                  );
+                                                  showDialog(
+                                                    context: context,
+                                                    child: AlertDialog(
+                                                      title: Text(
+                                                          _response.message),
+                                                      actions: <Widget>[
+                                                        FlatButton(
+                                                          child: Text('Ok'),
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                            Navigator.pushNamed(
+                                                                context, '/');
+                                                          },
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                  }),
                         ),
                       ),
                     ],

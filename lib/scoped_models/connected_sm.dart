@@ -16,7 +16,7 @@ mixin ConnectedModel on Model {
   // String mediaUrl = 'http://192.168.29.9:8080/storage/';
 
   String baseUrl = 'http://api.digiloopw.aaibuzz.com/api/';
-  String mediaUrl = 'http://api.digiloopw.aaibuzz.com/storage/digiloop/';
+  String mediaUrl = 'http://api.digiloopw.aaibuzz.com/storage/';
 
   String companyDetails = '-';
 

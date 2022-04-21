@@ -11,6 +11,7 @@ class SalesOrder {
   String grossTotal;
   String status;
   List<SalesOrderDetail> salesOrderDetails;
+  List<dynamic> payments;
   List<dynamic> logistics;
 
   SalesOrder({
@@ -23,6 +24,7 @@ class SalesOrder {
     this.grossTotal,
     this.status,
     this.salesOrderDetails,
+    this.payments,
     this.logistics,
   });
 }
